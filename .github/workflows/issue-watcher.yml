@@ -1,0 +1,20 @@
+name: Watch for issue edits with Certain Labels
+
+on:
+  issues:
+    types: [edited]
+
+jobs:
+  process_labeled_issues:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Check if the issue has the 'airtable' label
+        run: |
+          if echo "${{ toJson(github.event.issue.labels) }}" | grep -q '"airtable"'; then
+            echo "This issue has the 'airtable' label. Proceeding with further steps."
+            # Add steps to process the issue here (e.g., tests, actions)
+          else
+            echo "This issue does not have the 'airtable' label. Skipping workflow."
+            exit 0
